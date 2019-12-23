@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LyricsApp</string>
+    <string name="songHint">Type song name here</string>
+    <string name="artistHint">Artist name (optional)</string>
+    <string name="searchText">Search</string>
+    <string name="viewHistoryText">View History</string>
+</resources>
