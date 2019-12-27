@@ -4,4 +4,7 @@
     <string name="artistHint">Artist name (optional)</string>
     <string name="searchText">Search</string>
     <string name="viewHistoryText">View History</string>
+    <string name="artistLabel">Artist:</string>
+    <string name="songLabel">Song:</string>
+    <string name="lyricsLabel">Lyrics:</string>
 </resources>

@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8px">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/artistLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Artist:"
+        android:text="@string/artistLabel"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -23,11 +23,28 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/songLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/songLabel"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/songTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="ABCD"
+        android:textSize="20sp" />
+
+    <TextView
         android:id="@+id/lyricsLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Lyrics:"
+        android:text="@string/lyricsLabel"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -35,7 +52,7 @@
         android:id="@+id/lyricsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="12"
+        android:layout_weight="20"
         android:text="ABCD"
         android:textSize="20sp" />
 </LinearLayout>

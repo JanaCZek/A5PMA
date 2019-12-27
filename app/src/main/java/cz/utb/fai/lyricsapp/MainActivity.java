@@ -24,10 +24,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,19 +72,11 @@ public class MainActivity extends AppCompatActivity {
                     else return;
 
                     url = new URL(urlString);
+                    //url = new URL("https://www.google.com/");
 
                     //https://stackoverflow.com/questions/6511880/how-to-parse-a-json-input-stream
                     HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-                    connection.setHostnameVerifier(new HostnameVerifier() {
-                        @Override
-                        public boolean verify(String hostname, SSLSession session) {
-                            return true;
-                        }
-                    });
-                    //connection.setRequestMethod("GET");
-                    //connection.setRequestProperty("Content-Type", "application/json");
 
-                    InputStream errorStream = connection.getErrorStream();
                     InputStream responseBody = connection.getInputStream();
 
                     InputStreamReader reader = new InputStreamReader(responseBody, "UTF-8");
@@ -113,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-            }
-        });
+           }
+       });
     }
 
     public void viewHistory(View view) {
