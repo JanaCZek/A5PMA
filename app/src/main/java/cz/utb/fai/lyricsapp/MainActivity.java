@@ -1,6 +1,7 @@
 package cz.utb.fai.lyricsapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     EditText artistNameEdit;
     ProgressBar progressBar;
     Context context;
+    private ArrayList<String> historyItemList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     //url = new URL("https://www.google.com/");
 
                     //https://stackoverflow.com/questions/6511880/how-to-parse-a-json-input-stream
-                    HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+                    URLConnection connection = url.openConnection();
 
                     InputStream responseBody = connection.getInputStream();
 
@@ -97,21 +101,25 @@ public class MainActivity extends AppCompatActivity {
                         showLyrics(jsonResult);
                     }
                     else {
-                        Toast.makeText(context, "Error occured", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Lyrics not found", Toast.LENGTH_LONG).show();
                     }
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
+                    Toast.makeText(context, "Error occured", Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Toast.makeText(context, "Error occured", Toast.LENGTH_LONG).show();
                 } catch (Exception e){
                     e.printStackTrace();
+                    Toast.makeText(context, "Error occured", Toast.LENGTH_LONG).show();
                 }
            }
        });
     }
 
     public void viewHistory(View view) {
+        prepareItemContent();
     }
 
     private void showLyrics(JSONObject jsonResult) throws JSONException {
@@ -126,5 +134,18 @@ public class MainActivity extends AppCompatActivity {
 
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    private void prepareItemContent()
+    {
+        prepareRecyclerView();
+    }
+
+    private void prepareRecyclerView()
+    {
+        RecyclerView recyclerView = findViewById(R.id.historyView);
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, historyItemList);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 }
