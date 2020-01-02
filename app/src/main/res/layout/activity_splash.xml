@@ -5,15 +5,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/splashText"
+    <ImageView
+        android:id="@+id/appLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lyrics App"
-        android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/applogo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

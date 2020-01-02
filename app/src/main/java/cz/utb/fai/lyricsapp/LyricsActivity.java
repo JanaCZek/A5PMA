@@ -15,10 +15,17 @@ public class LyricsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lyrics);
 
-        artist.setText(savedInstanceState.getString("artist"));
-        song.setText(savedInstanceState.getString("song"));
-        lyrics.setText(savedInstanceState.getString("lyrics"));
+        Bundle bundle = getIntent().getExtras();
+
+        artist = findViewById(R.id.artistTextView);
+        song = findViewById(R.id.songTextView);
+        lyrics = findViewById(R.id.lyricsTextView);
+
+        artist.setText(bundle.getString("artist"));
+        song.setText(bundle.getString("song"));
+        lyrics.setText(bundle.getString("lyrics"));
     }
 
     @Override
@@ -34,11 +41,12 @@ public class LyricsActivity extends AppCompatActivity {
 
         int count = sharedPreferences.getInt(countKeyInternal, 0);
 
-        editor.putString(artistKeyInternal, artist.getText().toString() + count);
-        editor.putString(songKeyInternal, song.getText().toString()+ count);
-        editor.putString(lyricsKeyInternal, lyrics.getText().toString() + count);
+        editor.putString(artistKeyInternal + count, artist.getText().toString());
+        editor.putString(songKeyInternal + count, song.getText().toString());
+        editor.putString(lyricsKeyInternal + count, lyrics.getText().toString());
 
         editor.putInt(countKeyInternal, count + 1);
+        editor.apply();
 
         super.onStop();
     }

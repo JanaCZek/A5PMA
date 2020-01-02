@@ -7,32 +7,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.JsonReader;
-import android.util.JsonToken;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,68 +43,51 @@ public class MainActivity extends AppCompatActivity {
         context = this;
     }
 
-    public void searchLyrics(View v){
+    public void searchLyrics(View v) {
         final String songName = songNameEdit.getText().toString();
         final String artistName = artistNameEdit.getText().toString();
 
         progressBar.setVisibility(View.VISIBLE);
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url;
-                    String urlString = "https://mourits.xyz:2096/";
+        try {
+            URL url;
+            String urlString = "https://mourits.xyz:2096/";
 
-                    if (songName.isEmpty() == false && artistName.isEmpty() == false){
-                        urlString += ("?a=" + artistName + "&s=" + songName);
-                    }
-                    else if (songName.isEmpty() == false && artistName.isEmpty()){
-                        urlString += ("?q=" + songName);
-                    }
-                    else return;
+            if (songName.isEmpty() == false && artistName.isEmpty() == false) {
+                urlString += ("?a=" + artistName + "&s=" + songName);
+            } else if (songName.isEmpty() == false && artistName.isEmpty()) {
+                urlString += ("?q=" + songName);
+            } else return;
 
-                    url = new URL(urlString);
-                    //url = new URL("https://www.google.com/");
+            url = new URL(urlString);
+            //url = new URL("https://www.google.com/");
 
-                    //https://stackoverflow.com/questions/6511880/how-to-parse-a-json-input-stream
-                    URLConnection connection = url.openConnection();
+            //https://stackoverflow.com/questions/6511880/how-to-parse-a-json-input-stream
+            ApiCall apiCall = new ApiCall();
+            apiCall.execute(url);
 
-                    InputStream responseBody = connection.getInputStream();
+            JSONObject jsonResult = apiCall.get();
 
-                    InputStreamReader reader = new InputStreamReader(responseBody, "UTF-8");
-                    BufferedReader br = new BufferedReader(reader);
-                    StringBuilder sb = new StringBuilder();
-                    String input;
+            boolean success = jsonResult.getBoolean("success");
 
-                    while ((input = br.readLine()) != null){
-                        sb.append(input);
-                    }
-                    JSONObject jsonResult = new JSONObject(sb.toString());
+            progressBar.setVisibility(View.GONE);
 
-                    boolean success = jsonResult.getBoolean("success");
+            if (success) {
+                showLyrics(jsonResult);
+            }
+            else {
+                Toast.makeText(this, "Lyrics not found", Toast.LENGTH_LONG);
+            }
 
-                    progressBar.setVisibility(View.GONE);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-                    if (success){
-                        showLyrics(jsonResult);
-                    }
-                    else {
-                        Toast.makeText(context, "Lyrics not found", Toast.LENGTH_LONG).show();
-                    }
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                    Toast.makeText(context, "Error occured", Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(context, "Error occured", Toast.LENGTH_LONG).show();
-                } catch (Exception e){
-                    e.printStackTrace();
-                    Toast.makeText(context, "Error occured", Toast.LENGTH_LONG).show();
-                }
-           }
-       });
+        Toast.makeText(this, "Error occured", Toast.LENGTH_LONG);
     }
 
     public void viewHistory(View view) {
@@ -136,16 +108,51 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void prepareItemContent()
-    {
+    private void prepareItemContent() {
         prepareRecyclerView();
     }
 
-    private void prepareRecyclerView()
-    {
-        RecyclerView recyclerView = findViewById(R.id.historyView);
+    private void prepareRecyclerView() {
+        /* RecyclerView recyclerView = findViewById(R.id.historyView);
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, historyItemList);
         recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); */
+    }
+
+    private class ApiCall extends AsyncTask<URL, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(URL[] urls) {
+
+            URLConnection connection;
+            try {
+                connection = urls[0].openConnection();
+                connection.setConnectTimeout(0);
+                connection.setReadTimeout(0);
+
+                connection.connect();
+
+                InputStream responseBody = connection.getInputStream();
+
+                InputStreamReader reader = new InputStreamReader(responseBody, "UTF-8");
+                BufferedReader br = new BufferedReader(reader);
+                StringBuilder sb = new StringBuilder();
+                String input;
+
+                while ((input = br.readLine()) != null) {
+                    sb.append(input);
+                }
+                JSONObject jsonResult = new JSONObject(sb.toString());
+
+                return jsonResult;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
     }
 }
