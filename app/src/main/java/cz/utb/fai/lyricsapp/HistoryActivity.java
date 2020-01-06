@@ -59,9 +59,9 @@ public class HistoryActivity extends AppCompatActivity {
         int countOfSongs = (sharedPreferences.getInt(countKeyInternal, 0));
 
         for (int i = countOfSongs - 1; i >= 0; --i){
-            String artist = sharedPreferences.getString(artistKeyInternal + i, "Empty");
-            String song = sharedPreferences.getString(songKeyInternal + i, "Empty");
-            String lyrics = sharedPreferences.getString(lyricsKeyInternal + i, "Empty");
+            String artist = sharedPreferences.getString(artistKeyInternal + i, "");
+            String song = sharedPreferences.getString(songKeyInternal + i, "");
+            String lyrics = sharedPreferences.getString(lyricsKeyInternal + i, "");
 
             artistList.add(artist);
             songList.add(song);

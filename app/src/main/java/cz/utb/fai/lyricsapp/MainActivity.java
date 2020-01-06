@@ -56,10 +56,14 @@ public class MainActivity extends AppCompatActivity {
                 urlString += ("?a=" + artistName + "&s=" + songName);
             } else if (songName.isEmpty() == false && artistName.isEmpty()) {
                 urlString += ("?q=" + songName);
-            } else return;
+            } else {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(this, "Song name cannot be empty", Toast.LENGTH_LONG).show();
+
+                return;
+            }
 
             url = new URL(urlString);
-            //url = new URL("https://www.google.com/");
 
             //https://stackoverflow.com/questions/6511880/how-to-parse-a-json-input-stream
             ApiCall apiCall = new ApiCall();
@@ -75,18 +79,17 @@ public class MainActivity extends AppCompatActivity {
                 showLyrics(jsonResult);
             }
             else {
-                Toast.makeText(this, "Lyrics not found", Toast.LENGTH_LONG);
+                Toast.makeText(this, "Lyrics not found", Toast.LENGTH_LONG).show();
+                return;
             }
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Toast.makeText(this, "Error occured", Toast.LENGTH_LONG);
+        Toast.makeText(this, "Error occured", Toast.LENGTH_LONG).show();
     }
 
     public void viewHistory(View view) {
