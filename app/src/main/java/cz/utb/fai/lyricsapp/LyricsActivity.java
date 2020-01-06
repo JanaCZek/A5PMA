@@ -37,6 +37,13 @@ public class LyricsActivity extends AppCompatActivity {
         String countKeyInternal = "count";
 
         SharedPreferences sharedPreferences = this.getSharedPreferences(lyricsFileName, MODE_PRIVATE);
+        boolean isInHistory = checkHistory(sharedPreferences, artist.getText(), song.getText());
+
+        if (isInHistory) {
+            super.onStop();
+            return;
+        }
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         int count = sharedPreferences.getInt(countKeyInternal, 0);
@@ -49,5 +56,22 @@ public class LyricsActivity extends AppCompatActivity {
         editor.apply();
 
         super.onStop();
+    }
+
+    private boolean checkHistory(SharedPreferences sharedPreferences, CharSequence artist, CharSequence song) {
+        String artistKeyInternal = "artistKeyInternal";
+        String songKeyInternal = "songKeyInternal";
+        String countKeyInternal = "count";
+
+        int count = sharedPreferences.getInt(countKeyInternal, 0);
+
+        for (int i = count - 1; i >= 0; --i){
+            String artistValue = sharedPreferences.getString(artistKeyInternal + i, "");
+            String songValue = sharedPreferences.getString(songKeyInternal + i, "");
+
+            if (artist.equals(artistValue) && song.equals(songValue)) return true;
+        }
+
+        return false;
     }
 }
