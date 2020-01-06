@@ -41,6 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     {
         holder.artistLabel.setText(artistList.get(position));
         holder.songLabel.setText(songList.get(position));
+        holder.songId.setText(String.valueOf(position));
     }
 
     @Override
@@ -54,13 +55,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ConstraintLayout historyItemLayout;
         TextView artistLabel;
         TextView songLabel;
+        TextView songId;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
 
             historyItemLayout = itemView.findViewById(R.id.historyItemLayout);
-            artistLabel = itemView.findViewById(R.id.artistLabel);
-            songLabel = itemView.findViewById(R.id.songLabel);
+            artistLabel = itemView.findViewById(R.id.artistHistoryLabel);
+            songLabel = itemView.findViewById(R.id.songHistoryLabel);
+            songId = itemView.findViewById(R.id.songId);
         }
     }
 }
