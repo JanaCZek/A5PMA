@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     EditText artistNameEdit;
     ProgressBar progressBar;
     Context context;
-    private ArrayList<String> historyItemList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void viewHistory(View view) {
-        prepareItemContent();
+        Intent intent = new Intent(context, HistoryActivity.class);
+        startActivity(intent);
     }
 
     private void showLyrics(JSONObject jsonResult) throws JSONException {
@@ -106,17 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
         intent.putExtras(bundle);
         startActivity(intent);
-    }
-
-    private void prepareItemContent() {
-        prepareRecyclerView();
-    }
-
-    private void prepareRecyclerView() {
-        /* RecyclerView recyclerView = findViewById(R.id.historyView);
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, historyItemList);
-        recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)); */
     }
 
     private class ApiCall extends AsyncTask<URL, Integer, JSONObject> {
