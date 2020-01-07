@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
             url = new URL(urlString);
 
-            //https://stackoverflow.com/questions/6511880/how-to-parse-a-json-input-stream
             ApiCall apiCall = new ApiCall();
             apiCall.execute(url);
 
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Toast.makeText(this, "Error occured", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Error occurred", Toast.LENGTH_LONG).show();
     }
 
     public void viewHistory(View view) {
@@ -124,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
                 connection.connect();
 
+                //https://stackoverflow.com/questions/6511880/how-to-parse-a-json-input-stream
                 InputStream responseBody = connection.getInputStream();
 
                 InputStreamReader reader = new InputStreamReader(responseBody, "UTF-8");

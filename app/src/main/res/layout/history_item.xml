@@ -5,7 +5,11 @@
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:id="@+id/historyItemLayout"
-    android:onClick="showLyrics">
+    android:onClick="showLyrics"
+    android:background="@drawable/history_item_background"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
 
     <ImageView
         android:id="@+id/historyItemIcon"
@@ -35,7 +39,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/artistLabel"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/historyItemIcon"
         app:layout_constraintTop_toBottomOf="@+id/artistHistoryLabel" />
     <TextView
