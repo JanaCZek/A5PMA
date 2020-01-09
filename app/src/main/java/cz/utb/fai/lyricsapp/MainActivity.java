@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (success) {
                 showLyrics(jsonResult);
+                return;
             }
             else {
                 Toast.makeText(this, "Lyrics not found", Toast.LENGTH_LONG).show();
